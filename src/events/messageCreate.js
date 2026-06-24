@@ -6,10 +6,12 @@ module.exports = (client) => {
 
     // Discord → Minecraft chat
     if (message.channel.name === "chatlog") {
-      await api.sendDiscordChat(
-        message.author.username,
-        message.content
-      );
+      if (!message.content.startsWith("!")){
+        await api.sendDiscordChat(
+          message.author.username,
+          message.content
+        );
+      }
     }
 
     // prefix commands (!)
