@@ -1,13 +1,24 @@
+const { SlashCommandBuilder } = require("discord.js");
 const api = require("../services/paperApi");
+
 module.exports = {
-  name: "playerlist",
-  async execute(message) {
+  data: new SlashCommandBuilder()
+    .setName("playerlist")
+    .setDescription("List players currently online"),
+
+  async execute(interaction) {
+    await interaction.deferReply();
+
     const data = await api.getPlayers();
-    const players = data.players ? data.players.split(",").filter(p => p.length > 0) : [];
+    const players = data.players
+      ? data.players.split(",").filter(p => p.length > 0)
+      : [];
+
     if (!players.length) {
-      return message.reply("目前沒有玩家在線");
+      return interaction.editReply("目前沒有玩家在線");
     }
-    message.reply(
+
+    await interaction.editReply(
       "目前在線玩家：\n" +
       players.map(p => `- ${p}`).join("\n")
     );

@@ -6,23 +6,11 @@ module.exports = (client) => {
 
     // Discord → Minecraft chat
     if (message.channel.name === "chatlog") {
-      if (!message.content.startsWith("!")){
-        await api.sendDiscordChat(
-          message.author.username,
-          message.content
-        );
+      try {
+        await api.sendDiscordChat(message.author.username, message.content);
+      } catch (err) {
+        console.error("Failed to forward Discord chat to Minecraft:", err.message);
       }
     }
-
-    // prefix commands (!)
-    if (!message.content.startsWith("!")) return;
-
-    const args = message.content.slice(1).split(" ");
-    const cmdName = args.shift();
-
-    const command = client.commands.get(cmdName);
-    if (!command) return;
-
-    command.execute(message, args);
   });
 };

@@ -1,7 +1,11 @@
-module.exports = {
-  name: "ping",
+const { SlashCommandBuilder } = require("discord.js");
 
-  async execute(message) {
-    message.reply("It's working!");
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("ping")
+    .setDescription("Check whether the bot is responsive"),
+
+  async execute(interaction) {
+    await interaction.reply("It's working!");
   }
 };
