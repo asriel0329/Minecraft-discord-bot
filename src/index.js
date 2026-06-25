@@ -17,15 +17,22 @@ client.commands = new Collection();
 
 // 載入 commands
 const commandsPath = path.join(__dirname, "commands");
-const commandFiles = fs.readdirSync(commandsPath);
+const commandFiles = fs
+  .readdirSync(commandsPath)
+  .filter(f => f.endsWith(".js"));
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
-  client.commands.set(command.name, command);
+  if (!command?.data || typeof command.execute !== "function") {
+    console.warn(`Skipping invalid command file: ${file}`);
+    continue;
+  }
+  client.commands.set(command.data.name, command);
 }
 
 // events
 require("./events/messageCreate")(client);
+require("./events/interactionCreate")(client);
 
 // HTTP API（Minecraft → Discord）
 require("./api/server")(client);
