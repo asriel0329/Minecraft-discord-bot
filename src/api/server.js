@@ -34,13 +34,13 @@ module.exports = (client) => {
 
     let formatted;
     if (type === "death") {
-      formatted = `💀 ${message}`;
+      formatted = ` ${message}`;
     } else if (type === "advancement") {
-      formatted = `🏆 **${player}** 獲得了進度 **${advancement}**`;
+      formatted = ` **${player}** 獲得了進度 **${advancement}**`;
     } else if (type === "command") {
-      formatted = `⌨️ **${player}** 輸入了指令：\`${command}\``;
+      formatted = ` **${player}** 輸入了指令：\`${command}\``;
     } else {
-      formatted = `📋 ${JSON.stringify(req.body)}`;
+      formatted = ` ${JSON.stringify(req.body)}`;
     }
 
     console.log(`[serverlog] ${formatted}`);
