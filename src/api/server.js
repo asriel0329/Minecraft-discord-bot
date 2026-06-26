@@ -48,34 +48,6 @@ module.exports = (client) => {
     res.sendStatus(200);
   });
 
-	
-  // Minecraft player list
-  app.get("/players", async (req, res) => {
-    const fetch = require("axios");
-    const api = `${process.env.PAPER_API}/players`;
-
-    try {
-      const result = await fetch.get(api);
-      res.json(result.data);
-    } catch (err) {
-      res.status(500).json({ error: "Cannot reach paper server" });
-    }
-  });
-
-  // player location
-  app.get("/player/:name", async (req, res) => {
-    const fetch = require("axios");
-
-    try {
-      const result = await fetch.get(
-        `${process.env.PAPER_API}/player/${req.params.name}`
-      );
-      res.json(result.data);
-    } catch (err) {
-      res.status(500).json({ error: "Player not found" });
-    }
-  });
-
   const port = process.env.BOT_PORT || 3000;
 
   app.listen(port, () => {
