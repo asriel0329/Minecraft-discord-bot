@@ -4,16 +4,23 @@ module.exports = (client) => {
   const app = express();
   app.use(express.json());
 
-  app.use((req, res, next) => {
-  if (req.get("X-Auth-Token") !== process.env.BOT_API_TOKEN) {
-    return res.sendStatus(401);
+  // 驗證 token，啟動時檢查有沒有設定
+  if (!process.env.BOT_API_TOKEN) {
+    console.error("錯誤：BOT_API_TOKEN 未設定，API 無法啟動");
+    process.exit(1);
   }
-  next();
+
+  app.use((req, res, next) => {
+    if (req.get("X-Auth-Token") !== process.env.BOT_API_TOKEN) {
+      return res.sendStatus(401);
+    }
+    next();
+  });
 
   // Minecraft → Discord chat
   app.post("/mc-chat", (req, res) => {
     const { player, message } = req.body;
-    console.log(`收到 MC 聊天: ${player}: ${message}`); 
+    console.log(`收到 MC 聊天: ${player}: ${message}`);
     const channel = client.channels.cache.find(
       c => c.name === "chatlog"
     );
@@ -23,8 +30,6 @@ module.exports = (client) => {
     }
 
     res.sendStatus(200);
-
-    });
   });
 
   // Minecraft server log → #serverlog 頻道
