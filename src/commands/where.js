@@ -15,6 +15,12 @@ module.exports = {
   async execute(interaction) {
     const name = interaction.options.getString("player");
 
+    const worldNames = {
+      "world": "主世界",
+      "world_nether": "地獄",
+      "world_the_end": "終界"
+    };
+
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     try {
@@ -22,7 +28,7 @@ module.exports = {
 
       await interaction.editReply(
         `📍 ${data.name}\n` +
-        `World: ${data.world}\n` +
+        `世界: ${worldNames[data.world] ?? data.world}\n` +
         `X: ${data.x}\nY: ${data.y}\nZ: ${data.z}`
       );
     } catch (err) {
