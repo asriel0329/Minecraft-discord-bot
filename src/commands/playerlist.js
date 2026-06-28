@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 const api = require("../services/paperApi");
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
     .setDescription("List players currently online"),
 
   async execute(interaction) {
-    await interaction.deferReply();
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const data = await api.getPlayers();
     const players = data.players
