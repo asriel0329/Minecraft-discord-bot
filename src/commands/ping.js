@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -6,6 +6,9 @@ module.exports = {
     .setDescription("Check whether the bot is responsive"),
 
   async execute(interaction) {
-    await interaction.reply("It's working!");
+    await interaction.reply({
+      content: "It's working!",
+      flags: MessageFlags.Ephemeral
+    });
   }
 };

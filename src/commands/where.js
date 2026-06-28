@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 const api = require("../services/paperApi");
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
   async execute(interaction) {
     const name = interaction.options.getString("player");
 
-    await interaction.deferReply();
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     try {
       const data = await api.getPlayer(name);

@@ -1,3 +1,5 @@
+const { MessageFlags } = require("discord.js");
+
 module.exports = (client) => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
@@ -10,7 +12,7 @@ module.exports = (client) => {
     } catch (err) {
       console.error(`Command "${interaction.commandName}" failed:`, err);
 
-      const reply = { content: "執行指令時發生錯誤", ephemeral: true };
+      const reply = { content: "執行指令時發生錯誤", flags: MessageFlags.Ephemeral };
       if (interaction.deferred || interaction.replied) {
         await interaction.editReply(reply).catch(() => {});
       } else {
